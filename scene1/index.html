@@ -11,27 +11,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="stylesheet" href="css/bootstrap.min.css">
-        <style>
-            body {
-                padding-top: 50px;
-                padding-bottom: 20px;
-            }
-            #game-bg-layer {
-				background-image:url(images/unicorn-background.jpg); 
-				width:100%; 
-				height:600px;
-            }
-            #inv-bg-layer {
- 				background-image:url(images/unicorn-background.jpg); 
-				width:100%; 
-				height:300px;
-            }
-            #text-bg-layer {
-				background-image:url(images/unicorn-background.jpg); 
-				width:100%; 
-				height:300px;
-            }
-        </style>
+        <link rel="stylesheet" href="application.css">
         <link rel="stylesheet" href="css/bootstrap-theme.min.css">
         <link rel="stylesheet" href="css/main.css">
 
@@ -77,21 +57,19 @@
       <!-- Example row of columns -->
       <div class="row">
         <div id="game-block" class="col-md-8" style="padding:0px">
-          <div id="game-bg-layer">
-			  <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-          </div>
+          <div id="game-bg-layer"></div>
         </div>
         <div class="col-md-4">
-        	<div id="inventory-block">
-			  <div id="inv-bg-layer">
-				  <p><a class="btn btn-default" href="#" role="button">Inventory &raquo;</a></p>
-			  </div>
-			</div>
-        	<div id="text-block">
-			  <div id="text-bg-layer">
-				  <p><a class="btn btn-default" href="#" role="button">Text &raquo;</a></p>
-			  </div>
-			</div>
+          <div id="inventory-block">
+            <div id="inv-bg-layer">
+              <p><a class="btn btn-default" href="#" role="button">Inventory &raquo;</a></p>
+            </div>
+          </div>
+          <div id="text-block">
+            <div id="text-bg-layer">
+              <p><a class="btn btn-default" href="#" role="button">Text &raquo;</a></p>
+            </div>
+          </div>
         </div>
       </div>
 
