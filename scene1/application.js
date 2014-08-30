@@ -1,13 +1,26 @@
 (function (React, document, window) {
   'use strict';
 
-  var dispatcher = {
-    register: function (callbackId, callback) {
-    },
+  var Dispatcher = function () {
+    var callbacks = {};
 
-    dispatch: function (callbackId) {
-    }
+    this.register = function (callbackId, callback) {
+      var list = callbacks[callbackId] = callbacks[callbackId] || [];
+      if (list.indexOf(callback) === -1) {
+        list.push(callback);
+      }
+    };
+
+    this.dispatch = function (callbackId) {
+      var list = callbacks[callbackId] || [],
+          slice = Array.prototype.slice.call(arguments, 1, arguments.length);
+
+      for (var i = 0; i < list.length; i++) {
+        list[i].apply(null, slice);
+      }
+    };
   };
+  var dispatcher = new Dispatcher();
 
   var components = {
     root: React.createClass({
