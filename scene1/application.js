@@ -1,8 +1,11 @@
-(function (React) {
+(function (React, document, window) {
   'use strict';
 
   var dispatcher = {
-    dispatch: function () {
+    register: function (callbackId, callback) {
+    },
+
+    dispatch: function (callbackId) {
     }
   };
 
@@ -31,7 +34,7 @@
         var props = this.props;
         var artefact = props.artefact;
         var description = artefact.description;
-        alert(description);
+        dispatcher.dispatch('text:change', artefact.description);
       },
 
       render: function () {
@@ -42,7 +45,7 @@
         var divStyle = {
           src:imageUrl,
           onClick: this.onClick,
-          class: 'overlay-object',
+          className: 'overlay-object',
           style: {
             transform: transform,
             width: artefact.dimX,
@@ -51,6 +54,23 @@
         };
 
         return React.DOM.img(divStyle, null);
+      }
+    }),
+
+    text: React.createClass({
+      onTextChange: function (text) {
+        this.setState({ text: text });
+      },
+
+      render: function () {
+        var text,
+            state = this.state;
+        if (state) {
+          text = state.text;
+        }
+        dispatcher.register('text:change', this.onTextChange);
+        console.log('RENDER');
+        return React.DOM.p(null, text);
       }
     })
   };
@@ -67,5 +87,8 @@
     sceneElement = document.getElementById('game-bg-layer');
     var scene = CurrentPlayer.getPlayersCurrentScene();
     renderScene(scene);
+
+    var textElement = document.getElementById('text-bg-layer');
+    React.renderComponent(components.text(), textElement);
   };
-}).call(this, React);
+}).call(this, React, document, window);
