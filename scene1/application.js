@@ -56,7 +56,7 @@ var run_application = function() {
     var main_element_id = document.getElementById('content');
 
     React.renderComponent(root_component(data), main_element_id);
-
+    // test
 }
 
 window.onload=run_application;
