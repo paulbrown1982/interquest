@@ -15,6 +15,16 @@ Player.prototype.removeArtefactFromInventory = function(artefactId) {
 	return artefact;
 };
 
+Player.prototype.listPlayersInventory = function() {
+	var inventoryList = [];
+	for (var artefact in inventory) {
+		if (inventory.hasOwnProperty(artefact)) {
+			inventoryList.push(artefact);
+		}
+	}
+	return inventoryList;
+}
+
 Player.prototype.moveToNextScene = function() {
 	var sceneCount = 0;
 	for (var s in Scenes) {
