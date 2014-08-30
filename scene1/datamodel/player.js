@@ -1,5 +1,8 @@
 function Player() {
 	this.scene = getScene();
+	if (this.scene < 1) {
+		this.moveToNextScene();
+	}
 	this._uniqueInventory = {};
 	this.inventory = [];
 };
