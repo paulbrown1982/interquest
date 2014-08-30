@@ -2,7 +2,7 @@
 function importCharacters(json) {
 	json.feed.entry.forEach(function(character) {
 		with (character) {
-			var character = new Character(gsx$character.$t, gsx$name.$t, gsx$url.$t, gsx$sizex.$t, gsx$sizey.$t);
+			var character = new Character(gsx$character.$t, gsx$name.$t, gsx$url.$t, gsx$dimx.$t, gsx$dimy.$t);
 			Characters[character.id] = character;
 		}
 	});
@@ -20,7 +20,7 @@ function importScenes(json) {
 function importArtefacts(json) {
 	json.feed.entry.forEach(function(artefact) {
 		with (artefact) {
-			var artefact = new Artefact(gsx$artefact.$t, gsx$name.$t, gsx$description.$t, gsx$sizex.$t, gsx$sizey.$t, gsx$url.$t );
+			var artefact = new Artefact(gsx$artefact.$t, gsx$name.$t, gsx$description.$t, gsx$dimx.$t, gsx$dimy.$t, gsx$url.$t );
 			Artefacts[artefact.id] = artefact;
 		}
 	});
