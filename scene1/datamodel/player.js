@@ -30,7 +30,7 @@ Player.prototype.removeArtefactFromInventory = function(artefactId) {
 
 Player.prototype.listPlayersInventory = function() {
 	var inventoryList = [];
-	this.inventory.forEach(function(artefactId)) {
+	this.inventory.forEach(function(artefactId) {
 		inventoryList.push(Artefacts[artefactId]);
 	});
 	return inventoryList;
