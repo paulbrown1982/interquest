@@ -53,7 +53,7 @@ Player.prototype.moveToNextScene = function() {
 };
 
 Player.prototype.moveToPreviousScene = function() {
-	if (this.scene > 0) {
+	if (this.scene > 1) {
 		this.scene -= 1;
 	}
 	setScene(this.scene);
