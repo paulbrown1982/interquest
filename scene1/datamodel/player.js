@@ -1,5 +1,5 @@
 function Player() {
-	this.scene = 0;
+	this.scene = "1";
 	this.inventory = {};	
 };
 
@@ -32,3 +32,9 @@ Player.prototype.moveToPreviousScene = function() {
 		this.scene -= 1;
 	}
 };
+
+Player.prototype.getPlayersCurrentScene = function() {
+	return Scenes[this.scene];	
+};
+
+var CurrentPlayer = new Player();
