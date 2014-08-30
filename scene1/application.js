@@ -82,7 +82,6 @@
           text = state.text;
         }
         dispatcher.register('text:change', this.onTextChange);
-        console.log('RENDER');
         return React.DOM.p(null, text);
       }
     })
