@@ -98,6 +98,7 @@
           onClick: this.onClick,
           className: 'overlay-object',
           style: {
+            WebkitTransform: transform,
             transform: transform,
             width: artefact.dimX,
             height: artefact.dimY
@@ -155,6 +156,7 @@
   };
 
   window.onload = function () {
+    CurrentPlayer.clearPlayersInventory();
     sceneElement = document.getElementById('game-bg-layer');
     var scene = CurrentPlayer.getPlayersCurrentScene();
 
