@@ -222,8 +222,8 @@
             attrs.style.cursor = "pointer";
             attrs.onClick = this.onClick;
             if (CurrentPlayer.allSceneItemsAreInInventory(props.scene)) {
-              attrs.style.border = '1px solid green';
-              //attrs.style.border = '1px solid green';
+              attrs.style.border = '1px solid #00FFFB';
+              attrs.style.backgroundImage = 'url(images/Character/check-mark-white-th.png)';
             } else if (CurrentPlayer.scene == parseInt(props.scene.id, 10)) {
               attrs.style.border = '1px solid #00FFFB';
             }
