@@ -111,4 +111,16 @@ Player.prototype.getPlayersCurrentScene = function() {
 	return Scenes[this.scene+""];	
 };
 
+Player.prototype.allSceneItemsAreInInventory = function(scene) {
+  var allItemsAreThere = true;
+  var self = this;
+  scene.artefactsInPosition.forEach(function(sceneArtefact) {
+    var sceneArtefactId = sceneArtefact.artefact.id;
+    if (!self.containsArtefactWithId(sceneArtefactId)) {
+      allItemsAreThere = false;
+    }
+  });
+  return allItemsAreThere;
+}
+
 var CurrentPlayer = new Player();

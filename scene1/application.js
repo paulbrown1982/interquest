@@ -221,7 +221,10 @@
           if (props.scene) {
             attrs.style.cursor = "pointer";
             attrs.onClick = this.onClick;
-            if (CurrentPlayer.scene == parseInt(props.scene.id, 10)) {
+            if (CurrentPlayer.allSceneItemsAreInInventory(props.scene)) {
+              attrs.style.border = '1px solid green';
+              //attrs.style.border = '1px solid green';
+            } else if (CurrentPlayer.scene == parseInt(props.scene.id, 10)) {
               attrs.style.border = '1px solid #00FFFB';
             }
           } else {
