@@ -201,14 +201,17 @@
 
   var actions = [
     {
+      text: 'reset',
+      action: function () {
+        dispatcher.dispatch('scene:change');
+      }
+    },
+    {
       text: '< Previous',
       action: function () {
         CurrentPlayer.moveToPreviousScene();
         dispatcher.dispatch('scene:change');
       }
-    },
-    {
-      text: '|'
     },
     {
       text: 'Next >',
