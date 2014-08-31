@@ -281,8 +281,8 @@
         dispatcher.dispatch('scene:change');
         dispatcher.dispatch('inventory:change');
         window.showBioFor(null);
-        hideGameContainer();
-        showHomepage();
+        setElementDisplay('game-container', 'none');
+        setElementDisplay('homepage', 'block');
       }
     },
     {
@@ -301,27 +301,10 @@
     }
   ];
 
-  function showGameContainer() {
-  	var gameContainerElement = document.getElementById('game-container');
-  	gameContainerElement.style.display = "block";
-  }
-  
-  function hideGameContainer() {
-  	var gameContainerElement = document.getElementById('game-container');
-  	gameContainerElement.style.display = "none";
+  function setElementDisplay(elementId, display) {
+    document.getElementById(elementId).style.display = display;
   }
 
-
-  function hideHomepage() {
-	var homepageElement = document.getElementById('homepage');
-  	homepageElement.style.display = "none";
-  }
-  
-  function showHomepage() {
-	  var homepageElement = document.getElementById('homepage');
-  	homepageElement.style.display = "block";
-  }
-  
   window.showBioFor = function(name) {
     var self = window.showBioFor;
     self.adasBioElement = self.adasBioElement || document.getElementById("ada-bio");
@@ -356,8 +339,8 @@
   };
 
   window.startGame = function () {
-  	hideHomepage();
-  	showGameContainer();
+    setElementDisplay('homepage', 'none');
+    setElementDisplay('game-container', 'block');
 
   	CurrentPlayer.setPlayedBefore();
     sceneElement = document.getElementById('game-bg-layer');
@@ -380,14 +363,13 @@
     if (renderScene(scene)) {
       dispatcher.dispatch('inventory:change');
     }
-    
   };
 
   window.onload = function() {
 	  if (CurrentPlayer.hasPlayedBefore()) {
 		  window.startGame();
 	  } else {
-		  showHomepage();
+      setElementDisplay('homepage', 'block');
 	  }
   }
 }).call(this, React, document, window);
