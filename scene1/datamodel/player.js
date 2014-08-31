@@ -3,40 +3,35 @@ function Player() {
 	if (this.scene < 1) {
 		this.moveToNextScene();
 	}
-	this._uniqueInventory = {};
-	this.inventory = [];
 };
 
-Player.prototype._rebuildInventory = function() {
-	var newInventory = [];
-	for (var artefactId in this._uniqueInventory) {
-		if (inventory.hasOwnProperty(artefactId)) {
-			newInventory.push(artefactId);
+Player.prototype.addArtefactToInventory = function(artefactIdToAdd) {
+	var artefacts = getArtifacts() || [];
+	var alreadyThere = false;
+	artefacts.forEach(function(artefactId) {
+		if (artefactId == artefactIdToAdd) {
+			alreadyThere = true;
 		}
+	});
+	if (!alreadyThere) {
+		artefacts.add(artefactIdToAdd);
 	}
-	this.inventory = newInventory;
+	setArtifacts(artefacts);
 };
 
-Player.prototype.addArtefactToInventory = function(artefact) {
-	this._uniqueInventory[artefact.id] = true;
-	this._rebuildInventory();
-};
-
-Player.prototype.removeArtefactFromInventory = function(artefactId) {
-	var isThere = this._uniqueInventory[artefactId];
-	if (isThere) {
-		delete this._uniqueInventory[artefactId];
-	}
-	this._rebuildInventory();
-	return Artefacts[artefactId];
+Player.prototype.removeArtefactFromInventory = function(artefactIdToRemove) {
+	var artefacts = getArtifacts();
+	var newArtefacts = [];
+	artefacts.forEach(function(artefactId) {
+		if (artefactId != artefactIdToRemove) {
+			newArtefacts.push(artefactId);
+		}
+	});
+	setArtifacts(newArtefacts);
 };
 
 Player.prototype.listPlayersInventory = function() {
-	var inventoryList = [];
-	this.inventory.forEach(function(artefactId) {
-		inventoryList.push(Artefacts[artefactId]);
-	});
-	return inventoryList;
+	return getArtifacts();
 }
 
 Player.prototype.moveToNextScene = function() {
