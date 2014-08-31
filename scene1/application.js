@@ -173,7 +173,7 @@
         return React.DOM.li(attrs);
       }
     }),
-    
+
     clearInventory: React.createClass({
       onClick: function () {
         CurrentPlayer.clearPlayersInventory();
@@ -188,13 +188,13 @@
         return React.DOM.a(attrs, "Clear Inventory");
       }
     }),
-    
+
     renderHomepageBios: React.createClass({
       render: function() {
         return React.DOM.p(null, Characters[this.props].bio);
       }
     }),
-    
+
     timelineItem: React.createClass({
       onClick: function () {
         CurrentPlayer.moveToScene(this.props.scene.id);
@@ -220,8 +220,11 @@
           if (props.scene) {
             attrs.style.cursor = "pointer";
             attrs.onClick = this.onClick;
+            if (CurrentPlayer.scene == parseInt(props.scene.id, 10)) {
+              attrs.style.border = '1px solid #00FFFB';
+            }
           } else {
-            attrs.style.opacity=0.2;
+            attrs.style.opacity=0.2; // TODO
           }
         } else {
           attrs.style.backgroundImage = 'url(' + ')';
@@ -229,15 +232,18 @@
         return React.DOM.li(attrs);
       }
     }),
-    
+
     renderTimeline: React.createClass({
-      onInventoryChange: function () {
-        this.setState({});
+      updateTimeline: function() {
+        this.setProps({ timeline: getCharactersForTimeline() });
       },
+
       render: function() {
-        var attrs = {};
-        dispatcher.register('inventory:change', this.onInventoryChange);
-        return React.DOM.ul(attrs, getCharactersForTimeline().map(components.timelineItem));
+        var props = this.props,
+            attrs = {};
+        dispatcher.register('inventory:change', this.updateTimeline);
+        dispatcher.register('scene:change', this.updateTimeline);
+        return React.DOM.ul(attrs, props.timeline.map(components.timelineItem));
       }
     })
   };
@@ -261,7 +267,7 @@
     React.renderComponent(components.root(scene), sceneElement);
     return true;
   };
-  
+
   dispatcher.register('scene:change', function () {
     var scene = CurrentPlayer.getPlayersCurrentScene();
     if (scene) {
@@ -277,8 +283,8 @@
         dispatcher.dispatch('scene:change');
         dispatcher.dispatch('inventory:change');
         window.showBioFor(null);
-        hideGameContainer();
-        showHomepage();
+        setElementDisplay('game-container', 'none');
+        setElementDisplay('homepage', 'block');
       }
     },
     {
@@ -297,63 +303,38 @@
     }
   ];
 
-  function showGameContainer() {
-  	var gameContainerElement = document.getElementById('game-container');
-  	gameContainerElement.style.display = "block";
-  }
-  
-  function hideGameContainer() {
-  	var gameContainerElement = document.getElementById('game-container');
-  	gameContainerElement.style.display = "none";
+  function setElementDisplay(elementId, display) {
+    document.getElementById(elementId).style.display = display;
   }
 
-
-  function hideHomepage() {
-	var homepageElement = document.getElementById('homepage');
-  	homepageElement.style.display = "none";
-  }
-  
-  function showHomepage() {
-	  var homepageElement = document.getElementById('homepage');
-  	homepageElement.style.display = "block";
-  }
-  
   window.showBioFor = function(name) {
     var self = window.showBioFor;
     self.adasBioElement = self.adasBioElement || document.getElementById("ada-bio");
     self.alansBioElement = self.alansBioElement || document.getElementById("alan-bio");
     self.adasImageElement = self.adasImageElement || document.getElementById("ada-image");
     self.alansImageElement = self.alansImageElement || document.getElementById("alan-image");
-    
-    var currentBioElement;
-    
+
+    self.adasBioElement.style.display = "none";
+    self.alansBioElement.style.display = "none";
+    self.adasImageElement.style.display = "block";
+    self.alansImageElement.style.display = "block";
     if (name == "ada") {
-      currentBioElement = self.adasBioElement;
-      currentBioElement.style.display = "block";
-      self.alansBioElement.style.display = "none";
-      self.adasImageElement.style.display = "block";
+      self.adasBioElement.style.display = "block";
       self.alansImageElement.style.display = "none";
     } else if (name == "alan") {
-      currentBioElement = self.alansBioElement;
-      currentBioElement.style.display = "block";
-      self.adasBioElement.style.display = "none";
+      self.alansBioElement.style.display = "block";
       self.adasImageElement.style.display = "none";
-      self.alansImageElement.style.display = "block";
     } else {
-      self.adasBioElement.style.display = "none";
-      self.alansBioElement.style.display = "none";
-      self.adasImageElement.style.display = "block";
-      self.alansImageElement.style.display = "block";
       return;
     }
-    
+
     var characterId = currentBioElement.getAttribute("data-character-id");
     React.renderComponent(components.renderHomepageBios(characterId), currentBioElement);
   };
 
   window.startGame = function () {
-  	hideHomepage();
-  	showGameContainer();
+    setElementDisplay('homepage', 'none');
+    setElementDisplay('game-container', 'block');
 
   	CurrentPlayer.setPlayedBefore();
     sceneElement = document.getElementById('game-bg-layer');
@@ -370,20 +351,19 @@
     React.renderComponent(components.clearInventory(), clearInventoryElement);
 
     var timelineElement = document.getElementById('timeline');
-    React.renderComponent(components.renderTimeline(), timelineElement);
+    React.renderComponent(components.renderTimeline({ timeline: getCharactersForTimeline() }), timelineElement);
 
     var scene = CurrentPlayer.getPlayersCurrentScene();
     if (renderScene(scene)) {
       dispatcher.dispatch('inventory:change');
     }
-    
   };
 
   window.onload = function() {
 	  if (CurrentPlayer.hasPlayedBefore()) {
 		  window.startGame();
 	  } else {
-		  showHomepage();
+      setElementDisplay('homepage', 'block');
 	  }
   }
 }).call(this, React, document, window);
