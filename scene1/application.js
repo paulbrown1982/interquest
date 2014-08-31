@@ -68,10 +68,11 @@
       }
     }),
 
-    navigation: React.createClass({
+    actions: React.createClass({
       render: function () {
-        var attrs = {};
-        return React.DOM.ul(attrs, actions.map(components.action))
+        var props = this.props,
+            attrs = {};
+        return React.DOM.ul(attrs, props.actions.map(components.action))
       }
     }),
 
@@ -275,34 +276,6 @@
     }
   });
 
-  var actions = [
-    {
-      key: 'reset',
-      action: function () {
-        CurrentPlayer.reset();
-        dispatcher.dispatch('scene:change');
-        dispatcher.dispatch('inventory:change');
-        window.showBioFor(null);
-        setElementDisplay('game-container', 'none');
-        setElementDisplay('homepage', 'block');
-      }
-    },
-    {
-      key: '« Previous',
-      action: function () {
-        CurrentPlayer.moveToPreviousScene();
-        dispatcher.dispatch('scene:change');
-      }
-    },
-    {
-      key: 'Next »',
-      action: function () {
-        CurrentPlayer.moveToNextScene();
-        dispatcher.dispatch('scene:change');
-      }
-    }
-  ];
-
   function setElementDisplay(elementId, display) {
     document.getElementById(elementId).style.display = display;
   }
@@ -344,14 +317,30 @@
     var inventoryElement = document.getElementById('inv-bg-layer');
     React.renderComponent(components.inventory(), inventoryElement);
 
-    var navigationElement = document.getElementById('navigation');
-    React.renderComponent(components.navigation(), navigationElement);
-
-    var clearInventoryElement = document.getElementById('clear-inventory');
-    React.renderComponent(components.clearInventory(), clearInventoryElement);
-
     var timelineElement = document.getElementById('timeline');
     React.renderComponent(components.renderTimeline({ timeline: getCharactersForTimeline() }), timelineElement);
+
+    React.renderComponent(components.actions({ actions: [
+      {
+        key: 'reset',
+        action: function () {
+          CurrentPlayer.reset();
+          dispatcher.dispatch('scene:change');
+          dispatcher.dispatch('inventory:change');
+          window.showBioFor(null);
+          setElementDisplay('game-container', 'none');
+          setElementDisplay('homepage', 'block');
+        }
+      },
+      {
+        key: 'Clear Inventory',
+        action: function () {
+          CurrentPlayer.clearPlayersInventory();
+          dispatcher.dispatch('scene:change');
+          dispatcher.dispatch('inventory:change');
+        }
+      }
+    ]}), document.getElementById('actions'));
 
     var scene = CurrentPlayer.getPlayersCurrentScene();
     if (renderScene(scene)) {
