@@ -206,8 +206,7 @@
         var props = this.props;
         var attrs = {
           className: 'timeline-item',
-          style: {
-          }
+          style: { }
         };
         var enabled = true;
         if (props.scene) {
@@ -225,12 +224,12 @@
               attrs.style.border = '1px solid #00FFFB';
             }
           } else {
-            attrs.style.opacity=0.2; // TODO
+            attrs.style.opacity = 0.2; // TODO
           }
         } else {
           attrs.style.backgroundImage = 'url(' + ')';
         }
-        return React.DOM.li(attrs);
+        return React.DOM.li(attrs, React.DOM.span({ className: 'timeline-item-date' }, props.date));
       }
     }),
 
