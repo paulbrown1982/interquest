@@ -15,9 +15,11 @@
       var list = callbacks[callbackId] || [],
           slice = Array.prototype.slice.call(arguments, 1, arguments.length);
 
-      for (var i = 0; i < list.length; i++) {
-        list[i].apply(null, slice);
-      }
+      setTimeout(function () {
+        for (var i = 0; i < list.length; i++) {
+          list[i].apply(null, slice);
+        }
+      }, 10);
     };
   };
   var dispatcher = new Dispatcher();
@@ -45,7 +47,7 @@
           attrs.style.WebkitFilter = 'grayscale(100%)';
           attrs.style.cursor = 'pointer';
           attrs.onClick = function () {
-            dispatcher.dispatch('text:change', 'This page is locked');
+            dispatcher.dispatch('text:change', 'This page is locked. Find the artefact needed to unlock it!');
           };
           attrs.onClick();
         } else {
@@ -76,10 +78,10 @@
       render: function () {
         var props = this.props;
         var attrs = {
-          href: 'javascript:void(0)',
+          href: '#',
           onClick: props.action
         };
-        return React.DOM.li(null, React.DOM.a(attrs, props.text));
+        return React.DOM.li(null, React.DOM.a(attrs, props.key));
       }
     }),
 
@@ -169,7 +171,22 @@
             };
         return React.DOM.li(attrs);
       }
-    })
+    }),
+    
+    clearInventory: React.createClass({
+      onClick: function () {
+        CurrentPlayer.clearPlayersInventory();
+        dispatcher.dispatch('scene:change');
+        dispatcher.dispatch('inventory:change');
+      },
+      render: function() {
+        var attrs = {
+          href: "#",
+          onClick: this.onClick
+        };
+        return React.DOM.a(attrs, "Clear Inventory");
+      }
+    }) 
   };
 
   var sceneElement;
@@ -201,17 +218,22 @@
 
   var actions = [
     {
-      text: '< Previous',
+      key: 'reset',
+      action: function () {
+        CurrentPlayer.reset();
+        dispatcher.dispatch('scene:change');
+        dispatcher.dispatch('inventory:change');
+      }
+    },
+    {
+      key: '« Previous',
       action: function () {
         CurrentPlayer.moveToPreviousScene();
         dispatcher.dispatch('scene:change');
       }
     },
     {
-      text: '|'
-    },
-    {
-      text: 'Next >',
+      key: 'Next »',
       action: function () {
         CurrentPlayer.moveToNextScene();
         dispatcher.dispatch('scene:change');
@@ -230,13 +252,14 @@
   }
   
   function showHomepage() {
-	var homepageElement = document.getElementById('homepage');
+	  var homepageElement = document.getElementById('homepage');
   	homepageElement.style.display = "block";
   }
 
   window.startGame = function () {
   	hideHomepage();
   	showGameContainer();
+
   	CurrentPlayer.setPlayedBefore();
     sceneElement = document.getElementById('game-bg-layer');
     var textElement = document.getElementById('text-bg-layer');
@@ -247,6 +270,9 @@
 
     var navigationElement = document.getElementById('navigation');
     React.renderComponent(components.navigation(), navigationElement);
+
+    var clearInventoryElement = document.getElementById('clear-inventory');
+    React.renderComponent(components.clearInventory(), clearInventoryElement);
 
     var scene = CurrentPlayer.getPlayersCurrentScene();
     if (renderScene(scene)) {
