@@ -88,6 +88,7 @@ body {
   position: absolute;
   top: 0;
   right: 0;
+  z-index: 100;
   list-style: none;
   font-size: 1.5em;
   font-family: 'Cinzel', serif;
@@ -98,6 +99,11 @@ body {
 #navigation li {
   display: inline-block;
   padding: 0 10px;
+  border-right: 1px solid #dfa920;
+}
+
+#navigation li:last-child {
+  border: none;
 }
 
 #navigation li a {
