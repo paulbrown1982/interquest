@@ -11,10 +11,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link href='http://fonts.googleapis.com/css?family=Cinzel' rel='stylesheet' type='text/css'>
         <style>
+        	
             body {
                 padding-top: 50px;
                 padding-bottom: 20px;
+                background-color: #000;
             }
             #game-bg-layer {
 				background-image:url(images/unicorn-background.jpg); 
@@ -22,14 +25,20 @@
 				height:600px;
             }
             #inv-bg-layer {
- 				background-image:url(images/unicorn-background.jpg); 
+ 				background-image:url(images/inv-bg-img.png); 
 				width:100%; 
 				height:300px;
             }
             #text-bg-layer {
-				background-image:url(images/unicorn-background.jpg); 
+				background-image:url(images/text-bg-img.png); 
 				width:100%; 
 				height:300px;
+            }
+            #text-bg-layer p {
+            	font-family: 'Cinzel', serif;
+				padding: 60px 0px;
+				margin: 30px;
+				font-size: 18px;
             }
         </style>
         <link rel="stylesheet" href="css/bootstrap-theme.min.css">
@@ -80,7 +89,7 @@
 			  <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4" style="padding:0px">
         	<div id="inventory-block">
 			  <div id="inv-bg-layer">
 				  <p><a class="btn btn-default" href="#" role="button">Inventory &raquo;</a></p>
@@ -88,7 +97,7 @@
 			</div>
         	<div id="text-block">
 			  <div id="text-bg-layer">
-				  <p><a class="btn btn-default" href="#" role="button">Text &raquo;</a></p>
+				  <p>Description of the images go here.</p>
 			  </div>
 			</div>
         </div>
