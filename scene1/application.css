@@ -160,4 +160,6 @@ a, a:hover {
   left: 0;
   text-align: center;
   color: #ffcc22;
+  background-color: black;
+  background-color: rgba(0, 0, 0, 255);
 }
