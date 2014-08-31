@@ -28,7 +28,7 @@ body {
 }
 #text-bg-layer p {
 	font-family: 'Cinzel', serif;
-	margin: 30px;
+	margin: 0 30px;
 	font-size: 18px;
 }
 .overlay-object {
