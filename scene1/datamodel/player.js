@@ -17,7 +17,7 @@ Player.prototype.addArtefactToInventory = function(artefactIdToAdd) {
 		}
 	});
 	if (!alreadyThere) {
-		artefacts.add(artefactIdToAdd);
+		artefacts.push(parseInt(artefactIdToAdd, 10));
 	}
 	setArtifacts(artefacts);
 };
