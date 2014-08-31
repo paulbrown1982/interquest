@@ -53,6 +53,7 @@ body {
 	font-family: 'Cinzel', serif;
 	margin: 0;
 	font-size: 18px;
+  white-space: pre-wrap;
 }
 .overlay-object {
   position: absolute;
