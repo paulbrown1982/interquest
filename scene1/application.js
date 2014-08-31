@@ -45,7 +45,7 @@
           attrs.style.WebkitFilter = 'grayscale(100%)';
           attrs.style.cursor = 'pointer';
           attrs.onClick = function () {
-            dispatcher.dispatch('text:change', 'This page is locked');
+            dispatcher.dispatch('text:change', 'This page is locked. Find the artefact needed to unlock it!');
           };
           attrs.onClick();
         } else {
