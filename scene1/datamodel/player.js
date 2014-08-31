@@ -33,6 +33,10 @@ Player.prototype.removeArtefactFromInventory = function(artefactIdToRemove) {
 	setArtifacts(newArtefacts);
 };
 
+Player.prototype.clearPlayersInventory = function() {
+	setArtifacts([]);
+};
+
 Player.prototype.listPlayersInventory = function() {
 	var artefactIds = getArtifacts();
 	var artefacts = [];
