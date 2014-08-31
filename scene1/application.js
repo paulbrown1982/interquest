@@ -40,14 +40,24 @@
               },
             };
 
-        var remaining = [],
-            inventory = CurrentPlayer.listPlayersInventory();
-        for (var i = 0; i < artefacts.length; i++) {
-          var entity = artefacts[i];
-          if (inventory.indexOf(entity.artefact) === -1) {
-            entity.key = entity.artefact.id;
-            remaining.push(entity);
+        var remaining = [];
+        if (props.disabled) {
+          attrs.style.WebkitFilter = 'grayscale(100%)';
+          attrs.style.cursor = 'pointer';
+          attrs.onClick = function () {
+            dispatcher.dispatch('text:change', 'This page is locked');
+          };
+          attrs.onClick();
+        } else {
+          if (!this.props.rendered) {
+            dispatcher.dispatch('text:change', props.charactersInPosition[0].character.bio);
+            this.props.rendered = true;
           }
+          var inventory = CurrentPlayer.listPlayersInventory();
+          remaining = artefacts.filter(function (entity) {
+            entity.key = entity.artefact.id;
+            return inventory.indexOf(entity.artefact) === -1;
+          });
         }
 
         dispatcher.register('inventory:change', this.onInventoryChange);
@@ -169,6 +179,15 @@
       return false;
     }
 
+    var requiredId = scene.unlockedByArtefactWithId;
+    if (requiredId) {
+      if (!CurrentPlayer.containsArtefactWithId(parseInt(requiredId, 10))) {
+        scene.disabled = true;
+      } else {
+        delete scene.disabled;
+      }
+    }
+
     React.renderComponent(components.root(scene), sceneElement);
     return true;
   };
@@ -219,20 +238,18 @@
   	hideHomepage();
   	showGameContainer();
   	CurrentPlayer.setPlayedBefore();
-    CurrentPlayer.clearPlayersInventory();
     sceneElement = document.getElementById('game-bg-layer');
+    var textElement = document.getElementById('text-bg-layer');
+    React.renderComponent(components.text(), textElement);
+
+    var inventoryElement = document.getElementById('inv-bg-layer');
+    React.renderComponent(components.inventory(), inventoryElement);
+
+    var navigationElement = document.getElementById('navigation');
+    React.renderComponent(components.navigation(), navigationElement);
+
     var scene = CurrentPlayer.getPlayersCurrentScene();
-
     if (renderScene(scene)) {
-      var textElement = document.getElementById('text-bg-layer');
-      React.renderComponent(components.text(), textElement);
-
-      var inventoryElement = document.getElementById('inv-bg-layer');
-      React.renderComponent(components.inventory(), inventoryElement);
-
-      var navigationElement = document.getElementById('navigation');
-      React.renderComponent(components.navigation(), navigationElement);
-
       dispatcher.dispatch('inventory:change');
     }
   };
@@ -244,5 +261,4 @@
 		  showHomepage();
 	  }
   }
-  
 }).call(this, React, document, window);
