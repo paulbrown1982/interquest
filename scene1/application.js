@@ -55,6 +55,24 @@
       }
     }),
 
+    navigation: React.createClass({
+      render: function () {
+        var attrs = {};
+        return React.DOM.ul(attrs, actions.map(components.action))
+      }
+    }),
+
+    action: React.createClass({
+      render: function () {
+        var props = this.props;
+        var attrs = {
+          href: 'javascript:void(0)',
+          onClick: props.action
+        };
+        return React.DOM.li(null, React.DOM.a(attrs, props.text));
+      }
+    }),
+
     inventory: React.createClass({
       onInventoryChange: function () {
         this.setState({ items: CurrentPlayer.listPlayersInventory() });
@@ -154,6 +172,30 @@
     React.renderComponent(components.root(scene), sceneElement);
     return true;
   };
+  
+  dispatcher.register('scene:change', function () {
+    var scene = CurrentPlayer.getPlayersCurrentScene();
+    if (scene) {
+      renderScene(scene);
+    }
+  });
+
+  var actions = [
+    {
+      text: 'Previous',
+      action: function () {
+        CurrentPlayer.moveToPreviousScene();
+        dispatcher.dispatch('scene:change');
+      }
+    },
+    {
+      text: 'Next',
+      action: function () {
+        CurrentPlayer.moveToNextScene();
+        dispatcher.dispatch('scene:change');
+      }
+    }
+  ];
 
   function showGameContainer() {
   	var gameContainerElement = document.getElementById('game-container');
@@ -185,6 +227,9 @@
       var inventoryElement = document.getElementById('inv-bg-layer');
       React.renderComponent(components.inventory(), inventoryElement);
 
+      var navigationElement = document.getElementById('navigation');
+      React.renderComponent(components.navigation(), navigationElement);
+
       dispatcher.dispatch('inventory:change');
     }
   };
@@ -196,6 +241,5 @@
 		  showHomepage();
 	  }
   }
-
   
 }).call(this, React, document, window);
