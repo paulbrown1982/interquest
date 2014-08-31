@@ -15,9 +15,11 @@
       var list = callbacks[callbackId] || [],
           slice = Array.prototype.slice.call(arguments, 1, arguments.length);
 
-      for (var i = 0; i < list.length; i++) {
-        list[i].apply(null, slice);
-      }
+      setTimeout(function () {
+        for (var i = 0; i < list.length; i++) {
+          list[i].apply(null, slice);
+        }
+      }, 10);
     };
   };
   var dispatcher = new Dispatcher();
@@ -79,7 +81,7 @@
           href: '#',
           onClick: props.action
         };
-        return React.DOM.li(null, React.DOM.a(attrs, props.text));
+        return React.DOM.li(null, React.DOM.a(attrs, props.key));
       }
     }),
 
@@ -216,7 +218,7 @@
 
   var actions = [
     {
-      text: 'reset',
+      key: 'reset',
       action: function () {
         CurrentPlayer.reset();
         dispatcher.dispatch('scene:change');
@@ -224,14 +226,14 @@
       }
     },
     {
-      text: '< Previous',
+      key: '< Previous',
       action: function () {
         CurrentPlayer.moveToPreviousScene();
         dispatcher.dispatch('scene:change');
       }
     },
     {
-      text: 'Next >',
+      key: 'Next >',
       action: function () {
         CurrentPlayer.moveToNextScene();
         dispatcher.dispatch('scene:change');
