@@ -226,14 +226,14 @@
       }
     },
     {
-      key: '< Previous',
+      key: '« Previous',
       action: function () {
         CurrentPlayer.moveToPreviousScene();
         dispatcher.dispatch('scene:change');
       }
     },
     {
-      key: 'Next >',
+      key: 'Next »',
       action: function () {
         CurrentPlayer.moveToNextScene();
         dispatcher.dispatch('scene:change');
