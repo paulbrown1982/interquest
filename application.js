@@ -1,5 +1,7 @@
 (function (React, document, window, $) {
   'use strict';
+  var count, oldCount;
+  count = oldCount = 0;
 
   var Dispatcher = function () {
     var callbacks = {};
@@ -218,6 +220,7 @@
         }
         if (enabled) {
           attrs.style.backgroundImage = 'url(' + props.avatarURL + ')';
+          count = count + 1;
           if (props.scene) {
             attrs.style.cursor = "pointer";
             attrs.onClick = this.onClick;
@@ -251,6 +254,13 @@
       render: function() {
         var props = this.props,
             attrs = {};
+        oldCount = count;
+        count = 0;
+        setTimeout(function () {
+          if (count != oldCount) {
+            dispatcher.dispatch('notice', 'New area unlocked!');
+          }
+        }, 300);
         dispatcher.register('inventory:change', this.updateTimeline);
         dispatcher.register('scene:change', this.updateTimeline);
         return React.DOM.ul(attrs, props.timeline.map(components.timelineItem));
@@ -350,6 +360,7 @@
           CurrentPlayer.clearPlayersInventory();
           dispatcher.dispatch('scene:change');
           dispatcher.dispatch('inventory:change');
+          dispatcher.dispatch('notice', 'Cleared Inventory');
         }
       }
     ]}), document.getElementById('actions'));
@@ -364,7 +375,7 @@
       });
       setTimeout(function () {
         container.fadeOut(500, $(this).remove);
-      }, 5000);
+      }, 4000);
     });
 
     var scene = CurrentPlayer.getPlayersCurrentScene();
