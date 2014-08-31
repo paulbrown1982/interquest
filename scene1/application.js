@@ -229,7 +229,13 @@
         } else {
           attrs.style.backgroundImage = 'url(' + ')';
         }
-        return React.DOM.li(attrs, React.DOM.span({ className: 'timeline-item-date' }, props.date));
+        var date = props.yearofbirth;
+        if (props.yearofdeath) {
+          date += '–' + props.yearofdeath;
+        } else {
+          date += '–Present';
+        }
+        return React.DOM.li(attrs, React.DOM.span({ className: 'timeline-item-date' }, date));
       }
     }),
 
