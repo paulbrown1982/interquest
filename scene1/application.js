@@ -223,6 +223,8 @@
         CurrentPlayer.reset();
         dispatcher.dispatch('scene:change');
         dispatcher.dispatch('inventory:change');
+        hideGameContainer();
+        showHomepage();
       }
     },
     {
@@ -245,6 +247,12 @@
   	var gameContainerElement = document.getElementById('game-container');
   	gameContainerElement.style.display = "block";
   }
+  
+  function hideGameContainer() {
+  	var gameContainerElement = document.getElementById('game-container');
+  	gameContainerElement.style.display = "none";
+  }
+
 
   function hideHomepage() {
 	var homepageElement = document.getElementById('homepage');
