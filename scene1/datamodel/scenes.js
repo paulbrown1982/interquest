@@ -19,4 +19,5 @@ Scene.prototype.addCharacter = function(character, positionX, positionY) {
 	});
 }
 
+
 var Scenes = {};
