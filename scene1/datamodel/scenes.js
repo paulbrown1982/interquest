@@ -1,8 +1,9 @@
-function Scene(id, backgroundURL) {
+function Scene(id, backgroundURL, unlockedByArtefactWithId) {
 	this.id = id;
 	this.backgroundURL = backgroundURL;
 	this.artefactsInPosition = [];
 	this.charactersInPosition = [];
+	this.unlockedByArtefactWithId = unlockedByArtefactWithId;
 };
 Scene.prototype.addArtefact = function(artefact, positionX, positionY) {
 	this.artefactsInPosition.push({

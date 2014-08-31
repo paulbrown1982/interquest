@@ -2,7 +2,7 @@
 function importCharacters(json) {
 	json.feed.entry.forEach(function(character) {
 		with (character) {
-			var character = new Character(gsx$character.$t, gsx$name.$t, gsx$url.$t, gsx$dimx.$t, gsx$dimy.$t);
+			var character = new Character(gsx$character.$t, gsx$name.$t, gsx$url.$t, gsx$bio.$t, gsx$dimx.$t, gsx$dimy.$t);
 			Characters[character.id] = character;
 		}
 	});
@@ -11,7 +11,7 @@ function importCharacters(json) {
 function importScenes(json) {
 	json.feed.entry.forEach(function(scene) {
 		with (scene) {
-			var scene = new Scene(gsx$scene.$t, gsx$background.$t);
+			var scene = new Scene(gsx$scene.$t, gsx$background.$t, gsx$unlockedby.$t);
 			Scenes[scene.id] = scene;
 		}
 	});

@@ -16,14 +16,20 @@ Player.prototype.setPlayedBefore = function() {
 	setBool("playedBefore", true);
 };
 
-Player.prototype.addArtefactToInventory = function(artefactToAdd) {
-	var artefacts = getArtifacts() || [];
-	var alreadyThere = false;
-	artefacts.forEach(function(artefactId) {
-		if (artefactId == artefactToAdd.id) {
-			alreadyThere = true;
+Player.prototype.containsArtefactWithId = function(artefactId) {
+	var artefacts = getArtifacts();
+	var containsArtefact = false;
+	artefacts.forEach(function(_artefactId) {
+		if (_artefactId == artefactId) {
+			containsArtefact = true;
 		}
 	});
+	return containsArtefact;
+};
+
+Player.prototype.addArtefactToInventory = function(artefactToAdd) {
+	var artefacts = getArtifacts();
+	var alreadyThere = this.containsArtefactWithId(artefactToAdd.id);
 	if (!alreadyThere) {
 		artefacts.push(parseInt(artefactToAdd.id, 10));
 	}
