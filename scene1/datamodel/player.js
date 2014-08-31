@@ -22,11 +22,11 @@ Player.prototype.addArtefactToInventory = function(artefactToAdd) {
 	setArtifacts(artefacts);
 };
 
-Player.prototype.removeArtefactFromInventory = function(artefactIdToRemove) {
+Player.prototype.removeArtefactFromInventory = function(artefactToRemove) {
 	var artefacts = getArtifacts();
 	var newArtefacts = [];
 	artefacts.forEach(function(artefactId) {
-		if (artefactId != artefactIdToRemove) {
+		if (artefactId != artefactToRemove.id) {
 			newArtefacts.push(artefactId);
 		}
 	});
