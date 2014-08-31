@@ -1,6 +1,6 @@
 body {
-	padding-top: 50px;
-	padding-bottom: 20px;
+	padding-top: 20px;
+	padding-bottom: 10px;
 	background-color: #000;
 }
 #challenge {
@@ -68,4 +68,17 @@ body {
   background-repeat: no-repeat;
   background-position: center;
   cursor: pointer;
+}
+
+#navigation {
+  position: absolute;
+  top: 0;
+  right: 0;
+  list-style: none;
+  padding: 5px 10px;
+}
+
+#navigation li {
+  display: inline-block;
+  padding: 0 10px;
 }
