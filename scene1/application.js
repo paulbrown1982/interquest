@@ -1,10 +1,26 @@
-(function (React) {
+(function (React, document, window) {
   'use strict';
 
-  var dispatcher = {
-    dispatch: function () {
-    }
+  var Dispatcher = function () {
+    var callbacks = {};
+
+    this.register = function (callbackId, callback) {
+      var list = callbacks[callbackId] = callbacks[callbackId] || [];
+      if (list.indexOf(callback) === -1) {
+        list.push(callback);
+      }
+    };
+
+    this.dispatch = function (callbackId) {
+      var list = callbacks[callbackId] || [],
+          slice = Array.prototype.slice.call(arguments, 1, arguments.length);
+
+      for (var i = 0; i < list.length; i++) {
+        list[i].apply(null, slice);
+      }
+    };
   };
+  var dispatcher = new Dispatcher();
 
   var components = {
     root: React.createClass({
@@ -31,7 +47,7 @@
         var props = this.props;
         var artefact = props.artefact;
         var description = artefact.description;
-        alert(description);
+        dispatcher.dispatch('text:change', artefact.description);
       },
 
       render: function () {
@@ -42,7 +58,7 @@
         var divStyle = {
           src:imageUrl,
           onClick: this.onClick,
-          class: 'overlay-object',
+          className: 'overlay-object',
           style: {
             transform: transform,
             width: artefact.dimX,
@@ -51,6 +67,22 @@
         };
 
         return React.DOM.img(divStyle, null);
+      }
+    }),
+
+    text: React.createClass({
+      onTextChange: function (text) {
+        this.setState({ text: text });
+      },
+
+      render: function () {
+        var text,
+            state = this.state;
+        if (state) {
+          text = state.text;
+        }
+        dispatcher.register('text:change', this.onTextChange);
+        return React.DOM.p(null, text);
       }
     })
   };
@@ -67,5 +99,8 @@
     sceneElement = document.getElementById('game-bg-layer');
     var scene = CurrentPlayer.getPlayersCurrentScene();
     renderScene(scene);
+
+    var textElement = document.getElementById('text-bg-layer');
+    React.renderComponent(components.text(), textElement);
   };
-}).call(this, React);
+}).call(this, React, document, window);
