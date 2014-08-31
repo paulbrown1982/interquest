@@ -1,112 +1,106 @@
-var data={
-    background_image: "images/unicorn-background.jpg",
-    orverlayImages:[
-        {
-            imageUrl:"images/scroll.jpg",
-            position: [
-                100,
-                100
-            ],
-            description: "scrolls are really cool."
-        },
-        {
-            imageUrl:"images/rocket.jpg",
-            position:[
-                500,
-                50
-            ],
-            description:"rockets are also cool!"
-        }
-    ]
-}
+(function (React, document, window) {
+  'use strict';
 
-var root_component = React.createClass({
+  var Dispatcher = function () {
+    var callbacks = {};
 
-    render: function(){
+    this.register = function (callbackId, callback) {
+      var list = callbacks[callbackId] = callbacks[callbackId] || [];
+      if (list.indexOf(callback) === -1) {
+        list.push(callback);
+      }
+    };
+
+    this.dispatch = function (callbackId) {
+      var list = callbacks[callbackId] || [],
+          slice = Array.prototype.slice.call(arguments, 1, arguments.length);
+
+      for (var i = 0; i < list.length; i++) {
+        list[i].apply(null, slice);
+      }
+    };
+  };
+  var dispatcher = new Dispatcher();
+
+  var components = {
+    root: React.createClass({
+      render: function() {
+        var props = this.props,
+            background_image = props.backgroundURL,
+            artefacts = props.artefactsInPosition,
+            attrs = {
+              style: {
+                backgroundImage: 'url("' + background_image + '")',
+                width: '100%',
+                height: '100%'
+              },
+            };
+
+        return React.DOM.div(attrs, artefacts.map(components.overlay));
+      }
+    }),
+
+    overlay: React.createClass({
+      addToInventory: function () {},
+
+      onClick: function () {
         var props = this.props;
-        var background_image = props.background_image;
-        var overlay_images = props.orverlayImages;
+        var artefact = props.artefact;
+        var description = artefact.description;
+        dispatcher.dispatch('text:change', artefact.description);
+      },
 
-        return React.DOM.div({},
-            React.DOM.img({src:background_image }, null ),
-            overlay_images.map(overlayComponent),
-            textComponent(),
-            inventoryComponent()
-        );
-    }
-
-});
-
-
-
-var overlayComponent = React.createClass({
-    
-    addToInventory: function(){
-        
-    },
-    
-    onClick: function(){
+      render: function () {
         var props = this.props;
-        var description = props.description;
-        alert(description);
-    },
-    
-    render: function(){
-        var props = this.props;
-        var imageUrl = props.imageUrl;
-        var position = props.position;
-        var transform = "translate(" + position[0] + "px, " + position[1] + "px)";
+        var artefact = props.artefact;
+        var imageUrl = artefact.imageURL;
+        var transform = "translate(" + props.positionX + "px, " + props.positionY + "px)";
         var divStyle = {
-            src:imageUrl,
-            onClick: this.onClick,
-            style: {
-                position: "absolute",
-                top: 0,
-                left: 0,
-                transform: transform
-                }
+          src:imageUrl,
+          onClick: this.onClick,
+          className: 'overlay-object',
+          style: {
+            transform: transform,
+            width: artefact.dimX,
+            height: artefact.dimY
+          }
         };
-        
+
         return React.DOM.img(divStyle, null);
+      }
+    }),
+
+    text: React.createClass({
+      onTextChange: function (text) {
+        this.setState({ text: text });
+      },
+
+      render: function () {
+        var text,
+            state = this.state;
+        if (state) {
+          text = state.text;
+        }
+        dispatcher.register('text:change', this.onTextChange);
+        return React.DOM.p(null, text);
+      }
+    })
+  };
+
+  var sceneElement;
+  function renderScene(scene) {
+    if (!scene) {
+      alert('something broke');
     }
-});
+    React.renderComponent(components.root(scene), sceneElement);
+  };
 
-var textComponent = React.createClass({
-    render: function(){
-        return React.DOM.div(
-            {
-                style:{
-                    backgroundColor:"brown",
-                    display:"inline-block"
-                }
-            },
-            "Text will go here"
-        );
-    }
-})
+  window.onload = function () {
+    sceneElement = document.getElementById('game-bg-layer');
+    var scene = CurrentPlayer.getPlayersCurrentScene();
+    renderScene(scene);
 
-
-var inventoryComponent = React.createClass ({
-    render: function(){
-        return React.DOM.div(
-        {
-            style:
-            {
-                backgroundColor:"beige" ,
-                display:"inline-block"
-            }
-        },
-        "inventory will go here");
-    }
-    
-});
-
-
-var run_application = function() {
-    var main_element_id = document.getElementById('content');
-
-    React.renderComponent(root_component(data), main_element_id);
-
-}
-
-window.onload=run_application;
+    var textElement = document.getElementById('text-bg-layer');
+    React.renderComponent(components.text(), textElement);
+  };
+}).call(this, React, document, window);

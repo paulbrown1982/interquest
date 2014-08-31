@@ -1,27 +1,41 @@
 function Player() {
-	this.scene = 1;
-	this.inventory = {};	
+	this.scene = getScene();
+	if (this.scene < 1) {
+		this.moveToNextScene();
+	}
+	this._uniqueInventory = {};
+	this.inventory = [];
+};
+
+Player.prototype._rebuildInventory = function() {
+	var newInventory = [];
+	for (var artefactId in this._uniqueInventory) {
+		if (inventory.hasOwnProperty(artefactId)) {
+			newInventory.push(artefactId);
+		}
+	}
+	this.inventory = newInventory;
 };
 
 Player.prototype.addArtefactToInventory = function(artefact) {
-	this.inventory[artefact.id] = artefact;
+	this._uniqueInventory[artefact.id] = true;
+	this._rebuildInventory();
 };
 
 Player.prototype.removeArtefactFromInventory = function(artefactId) {
-	var artefact = this.inventory[artefactId];
-	if (!!artefact) {
-		delete this.inventory[artefactId];
+	var isThere = this._uniqueInventory[artefactId];
+	if (isThere) {
+		delete this._uniqueInventory[artefactId];
 	}
-	return artefact;
+	this._rebuildInventory();
+	return Artefacts[artefactId];
 };
 
 Player.prototype.listPlayersInventory = function() {
 	var inventoryList = [];
-	for (var artefact in inventory) {
-		if (inventory.hasOwnProperty(artefact)) {
-			inventoryList.push(artefact);
-		}
-	}
+	this.inventory.forEach(function(artefactId) {
+		inventoryList.push(Artefacts[artefactId]);
+	});
 	return inventoryList;
 }
 
@@ -35,12 +49,14 @@ Player.prototype.moveToNextScene = function() {
 	if (this.scene == (sceneCount - 1)) {
 		this.scene += 1;
 	}
+	setScene(this.scene);
 };
 
 Player.prototype.moveToPreviousScene = function() {
-	if (this.scene > 0) {
+	if (this.scene > 1) {
 		this.scene -= 1;
 	}
+	setScene(this.scene);
 };
 
 Player.prototype.getPlayersCurrentScene = function() {

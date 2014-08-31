@@ -1,0 +1,28 @@
+body {
+  padding-top: 50px;
+  padding-bottom: 20px;
+}
+
+#game-bg-layer {
+  width: 100%;
+  height: 600px;
+}
+
+#inv-bg-layer {
+  background-image: url(images/unicorn-background.jpg);
+  width: 100%;
+  height: 300px;
+}
+
+#text-bg-layer {
+  background-image:url(images/unicorn-background.jpg);
+  width: 100%;
+  height: 300px;
+}
+
+.overlay-object {
+  position: absolute;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+}
