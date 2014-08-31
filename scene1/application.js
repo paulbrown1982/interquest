@@ -220,6 +220,9 @@
           if (props.scene) {
             attrs.style.cursor = "pointer";
             attrs.onClick = this.onClick;
+            if (CurrentPlayer.scene == parseInt(props.scene.id, 10)) {
+              attrs.style.border = '1px solid #00FFFB';
+            }
           }
         } else {
           attrs.style.backgroundImage = 'url(' + ')';
@@ -227,15 +230,18 @@
         return React.DOM.li(attrs);
       }
     }),
-    
+
     renderTimeline: React.createClass({
-      onInventoryChange: function () {
-        this.setState({});
+      updateTimeline: function() {
+        this.setProps({ timeline: getCharactersForTimeline() });
       },
+
       render: function() {
-        var attrs = {};
-        dispatcher.register('inventory:change', this.onInventoryChange);
-        return React.DOM.ul(attrs, getCharactersForTimeline().map(components.timelineItem));
+        var props = this.props,
+            attrs = {};
+        dispatcher.register('inventory:change', this.updateTimeline);
+        dispatcher.register('scene:change', this.updateTimeline);
+        return React.DOM.ul(attrs, props.timeline.map(components.timelineItem));
       }
     })
   };
@@ -368,7 +374,7 @@
     React.renderComponent(components.clearInventory(), clearInventoryElement);
 
     var timelineElement = document.getElementById('timeline');
-    React.renderComponent(components.renderTimeline(), timelineElement);
+    React.renderComponent(components.renderTimeline({ timeline: getCharactersForTimeline() }), timelineElement);
 
     var scene = CurrentPlayer.getPlayersCurrentScene();
     if (renderScene(scene)) {
