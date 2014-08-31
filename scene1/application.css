@@ -3,6 +3,9 @@ body {
 	padding-bottom: 10px;
 	background-color: #000;
 }
+a, a:hover {
+   outline: 0;
+}
 #homepage {
 	padding-left: 50px;
 	display: none;
