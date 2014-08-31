@@ -164,3 +164,29 @@ a, a:hover {
   background-color: black;
   background-color: rgba(0, 0, 0, 0.4);
 }
+
+#notice-container {
+  color: #ffcc22;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  font-size: 1.5em;
+  margin: auto;
+  width: 300px;
+  height: 100px;
+  padding: 25px 0;
+  text-align: center;
+  background-color: black;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 1px solid #ffcc22;
+}
+
+#notice {
+}
+
+#game-block {
+  position: relative;
+}

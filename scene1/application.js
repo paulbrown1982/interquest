@@ -1,4 +1,4 @@
-(function (React, document, window) {
+(function (React, document, window, $) {
   'use strict';
 
   var Dispatcher = function () {
@@ -354,6 +354,19 @@
       }
     ]}), document.getElementById('actions'));
 
+    dispatcher.register('notice', function (text) {
+      var container = $('<div id="notice-container"></div>');
+      var elem = $('<div id="notice"></div>').text(text);
+      container.append(elem);
+      $('#game-block').append(container);
+      container.on('click', function () {
+        $(this).fadeOut(500, $(this).remove);
+      });
+      setTimeout(function () {
+        container.fadeOut(500, $(this).remove);
+      }, 5000);
+    });
+
     var scene = CurrentPlayer.getPlayersCurrentScene();
     if (renderScene(scene)) {
       dispatcher.dispatch('inventory:change');
@@ -367,4 +380,4 @@
       setElementDisplay('homepage', 'block');
 	  }
   }
-}).call(this, React, document, window);
+}).call(this, React, document, window, jQuery);
