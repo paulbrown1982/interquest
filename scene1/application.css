@@ -28,4 +28,10 @@ body {
   top: 0;
   left: 0;
   cursor: pointer;
+  opacity: 0.4;
+  filter: alpha(opacity=40); /* For IE8 and earlier */
+}
+.overlay-object:hover {
+    opacity: 0.7;
+    filter: alpha(opacity=70); /* For IE8 and earlier */
 }
