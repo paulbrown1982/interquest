@@ -2,7 +2,7 @@ function Scene(id, backgroundURL, unlockedByArtefactWithId) {
 	this.id = id;
 	this.backgroundURL = backgroundURL;
 	this.artefactsInPosition = [];
-	this.charactersInPosition = [];
+	this.character = null;
 	this.unlockedByArtefactWithId = unlockedByArtefactWithId;
 };
 Scene.prototype.addArtefact = function(artefact, positionX, positionY) {
@@ -12,12 +12,8 @@ Scene.prototype.addArtefact = function(artefact, positionX, positionY) {
 		"positionY": positionY
 	});
 };
-Scene.prototype.addCharacter = function(character, positionX, positionY) {
-	this.charactersInPosition.push({
-		"character": character,
-		"positionX": positionX,
-		"positionY": positionY
-	});
+Scene.prototype.setCharacter = function(character) {
+	this.character = character;
 }
 
 

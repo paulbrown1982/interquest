@@ -52,7 +52,7 @@
           attrs.onClick();
         } else {
           if (!this.props.rendered) {
-            dispatcher.dispatch('text:change', props.charactersInPosition[0].character.bio);
+            dispatcher.dispatch('text:change', props.character.bio);
             this.props.rendered = true;
           }
           var inventory = CurrentPlayer.listPlayersInventory();

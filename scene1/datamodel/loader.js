@@ -41,7 +41,7 @@ function importSceneCharacters(json) {
 		with (sceneCharacters) {
 			var scene = Scenes[gsx$scene.$t];
 			var character = Characters[gsx$character.$t];
-			scene.addCharacter(character, gsx$positionx.$t, gsx$positiony.$t);
+			scene.setCharacter(character);
 		}
 	});
 }
