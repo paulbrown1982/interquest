@@ -19,8 +19,6 @@ Player.prototype.addArtefactToInventory = function(artefactToAdd) {
 	if (!alreadyThere) {
 		artefacts.push(parseInt(artefactToAdd.id, 10));
 	}
-	
-	console.log(artefacts);
 	setArtifacts(artefacts);
 };
 
