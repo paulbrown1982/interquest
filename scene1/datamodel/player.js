@@ -1,6 +1,9 @@
 function Player() {
 	this.scene = getScene();
-	if (this.scene < 1) {
+	var sceneCount = this.getNumberOfScenes();
+	// Sanitize scene variable
+	if (this.scene <= 0 || this.scene > sceneCount) {
+		this.scene = 0;
 		this.moveToNextScene();
 	}
 };
@@ -32,15 +35,20 @@ Player.prototype.removeArtefactFromInventory = function(artefactIdToRemove) {
 
 Player.prototype.listPlayersInventory = function() {
 	return getArtifacts();
-}
+};
 
-Player.prototype.moveToNextScene = function() {
+Player.prototype.getNumberOfScenes = function() {
 	var sceneCount = 0;
 	for (var s in Scenes) {
 		if (Scenes.hasOwnProperty(s)) {
 			sceneCount++;
 		}
 	}
+	return sceneCount;
+};
+
+Player.prototype.moveToNextScene = function() {
+	var sceneCount = this.getNumberOfScenes();
 	if (this.scene <= sceneCount) {
 		this.scene += 1;
 	}
