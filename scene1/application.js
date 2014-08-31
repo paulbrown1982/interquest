@@ -192,6 +192,7 @@
 
     renderHomepageBios: React.createClass({
       render: function() {
+        debugger;
         return React.DOM.p(null, Characters[this.props].bio);
       }
     }),
@@ -287,6 +288,7 @@
 
   window.showBioFor = function(name) {
     var self = window.showBioFor;
+    var currentBioElement;
     self.adasBioElement = self.adasBioElement || document.getElementById("ada-bio");
     self.alansBioElement = self.alansBioElement || document.getElementById("alan-bio");
     self.adasImageElement = self.adasImageElement || document.getElementById("ada-image");
@@ -299,9 +301,11 @@
     if (name == "ada") {
       self.adasBioElement.style.display = "block";
       self.alansImageElement.style.display = "none";
+      currentBioElement = self.adasBioElement;
     } else if (name == "alan") {
       self.alansBioElement.style.display = "block";
       self.adasImageElement.style.display = "none";
+      currentBioElement = self.alansBioElement;
     } else {
       return;
     }
