@@ -39,13 +39,15 @@
         <![endif]-->
     <div id="homepage">
       <div id="ada-layer">
-	    <img src="images/Homepage/Ada_Lovelace.jpg" height="462"/>
-	  </div>
-	  <div id="turing-layer">
-	    <img src="images/Homepage/Alan_Turing.jpg" height="462"/>
-	  </div>
-	  <div id="challenge">
-        <a href="#">Ada</a> and <a href="#">Alan</a> invite you to explore... <img src="images/Homepage/Key.jpg" id="explore-button" onclick="startGame()"/>
+        <div id="alan-bio" data-character-id="3"></div>
+  	    <img id="ada-image" src="images/Homepage/Ada_Lovelace.jpg" height="462"/>
+  	  </div>
+  	  <div id="alan-layer">
+  	    <div id="ada-bio" data-character-id="4"></div>
+  	    <img id="alan-image" src="images/Homepage/Alan_Turing.jpg" height="462"/>
+  	  </div>
+	    <div id="challenge">
+        <a href="#" onclick="showBioFor('ada')">Ada</a> and <a href="#" onclick="showBioFor('alan')">Alan</a> invite you to explore... <img src="images/Homepage/Key.jpg" id="explore-button" onclick="startGame()"/>
       </div>
     </div>
     <div id="game-container" class="container" style="padding:0px">

@@ -10,14 +10,29 @@ a, a:hover {
 	padding-left: 50px;
 	display: none;
 }
-#ada-layer {
+#ada-layer, 
+#alan-layer {
 	float: left;
 }
-#turing-layer {
-	float: left;
+#ada-bio {
+  height: 462px;
+  width: 433px;  /* Alan's width */
+  padding-left: 13px;
+  color: #ddd;
+  display: none;
+  white-space: pre-wrap;
+}
+#alan-bio {
+  height: 462px;
+  width: 392px; /* Aida's width */
+  padding-right: 12px;
+  color: #ddd;
+  display: none;
+  white-space: pre-wrap;
 }
 #challenge {
 	clear: both;
+  color: #ddd;
 	height: 100px;
 	font-size: 2em;
 	padding: 20px;

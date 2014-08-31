@@ -186,6 +186,12 @@
         };
         return React.DOM.a(attrs, "Clear Inventory");
       }
+    }),
+    
+    renderHomepageBios: React.createClass({
+      render: function() {
+        return React.DOM.p(null, Characters[this.props].bio);
+      }
     }) 
   };
 
@@ -263,6 +269,32 @@
 	  var homepageElement = document.getElementById('homepage');
   	homepageElement.style.display = "block";
   }
+  
+  window.showBioFor = function(name) {
+    var self = window.showBioFor;
+    self.adasBioElement = self.adasBioElement || document.getElementById("ada-bio");
+    self.alansBioElement = self.alansBioElement || document.getElementById("alan-bio");
+    self.adasImageElement = self.adasImageElement || document.getElementById("ada-image");
+    self.alansImageElement = self.alansImageElement || document.getElementById("alan-image");
+    
+    var currentBioElement;
+    
+    if (name == "ada") {
+      currentBioElement = self.adasBioElement;
+      self.alansBioElement.style.display = "none";
+      self.adasImageElement.style.display = "block";
+      self.alansImageElement.style.display = "none";
+    } else {
+      currentBioElement = self.alansBioElement;
+      self.adasBioElement.style.display = "none";
+      self.adasImageElement.style.display = "none";
+      self.alansImageElement.style.display = "block";
+    }
+    currentBioElement.style.display = "block";
+    
+    var characterId = currentBioElement.getAttribute("data-character-id");
+    React.renderComponent(components.renderHomepageBios(characterId), currentBioElement);
+  };
 
   window.startGame = function () {
   	hideHomepage();
@@ -286,11 +318,12 @@
     if (renderScene(scene)) {
       dispatcher.dispatch('inventory:change');
     }
+    
   };
 
   window.onload = function() {
 	  if (CurrentPlayer.hasPlayedBefore()) {
-		  window.startGame()
+		  window.startGame();
 	  } else {
 		  showHomepage();
 	  }

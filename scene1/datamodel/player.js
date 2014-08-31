@@ -21,9 +21,9 @@ Player.prototype.setPlayedBefore = function() {
 };
 
 Player.prototype.reset = function() {
-	setBool("playedBefore", false);
 	this.clearPlayersInventory();
 	this.jumpToFirstScene();
+	setBool("playedBefore", false);
 };
 
 Player.prototype.containsArtefactWithId = function(artefactId) {

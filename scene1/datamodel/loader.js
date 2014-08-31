@@ -2,7 +2,7 @@
 function importCharacters(json) {
 	json.feed.entry.forEach(function(character) {
 		with (character) {
-			var character = new Character(gsx$character.$t, gsx$name.$t, gsx$url.$t, gsx$bio.$t, gsx$dimx.$t, gsx$dimy.$t);
+			var character = new Character(gsx$character.$t, gsx$name.$t, gsx$yearofdeath.$t, gsx$url.$t, gsx$bio.$t, gsx$dimx.$t, gsx$dimy.$t);
 			Characters[character.id] = character;
 		}
 	});
