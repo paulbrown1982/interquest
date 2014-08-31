@@ -173,7 +173,7 @@
         return React.DOM.li(attrs);
       }
     }),
-    
+
     clearInventory: React.createClass({
       onClick: function () {
         CurrentPlayer.clearPlayersInventory();
@@ -188,13 +188,13 @@
         return React.DOM.a(attrs, "Clear Inventory");
       }
     }),
-    
+
     renderHomepageBios: React.createClass({
       render: function() {
         return React.DOM.p(null, Characters[this.props].bio);
       }
     }),
-    
+
     timelineItem: React.createClass({
       onClick: function () {
         CurrentPlayer.moveToScene(this.props.scene.id);
@@ -265,7 +265,7 @@
     React.renderComponent(components.root(scene), sceneElement);
     return true;
   };
-  
+
   dispatcher.register('scene:change', function () {
     var scene = CurrentPlayer.getPlayersCurrentScene();
     if (scene) {
@@ -311,29 +311,21 @@
     self.alansBioElement = self.alansBioElement || document.getElementById("alan-bio");
     self.adasImageElement = self.adasImageElement || document.getElementById("ada-image");
     self.alansImageElement = self.alansImageElement || document.getElementById("alan-image");
-    
-    var currentBioElement;
-    
+
+    self.adasBioElement.style.display = "none";
+    self.alansBioElement.style.display = "none";
+    self.adasImageElement.style.display = "block";
+    self.alansImageElement.style.display = "block";
     if (name == "ada") {
-      currentBioElement = self.adasBioElement;
-      currentBioElement.style.display = "block";
-      self.alansBioElement.style.display = "none";
-      self.adasImageElement.style.display = "block";
+      self.adasBioElement.style.display = "block";
       self.alansImageElement.style.display = "none";
     } else if (name == "alan") {
-      currentBioElement = self.alansBioElement;
-      currentBioElement.style.display = "block";
-      self.adasBioElement.style.display = "none";
+      self.alansBioElement.style.display = "block";
       self.adasImageElement.style.display = "none";
-      self.alansImageElement.style.display = "block";
     } else {
-      self.adasBioElement.style.display = "none";
-      self.alansBioElement.style.display = "none";
-      self.adasImageElement.style.display = "block";
-      self.alansImageElement.style.display = "block";
       return;
     }
-    
+
     var characterId = currentBioElement.getAttribute("data-character-id");
     React.renderComponent(components.renderHomepageBios(characterId), currentBioElement);
   };
