@@ -47,11 +47,12 @@ a, a:hover {
 #game-bg-layer {
 	width:100%;
 	height:600px;
+	margin-top: 20px;
 }
 #inv-bg-layer {
 	background-image:url(images/inv-bg-img.png);
 	width:100%;
-	height:300px;
+	height:162px;
 }
 
 #text-block {
@@ -128,11 +129,30 @@ a, a:hover {
 #navigation li a {
   display: block;
   /*color: #dfa920;*/
-  color: #ffcc22
+  color: #ffcc22;
 }
 
 #clear-inventory a {
   float: right;
   font-family: 'Cinzel', serif;
-  color: #ffcc22
+  color: #ffcc22;
+}
+
+#timeline {
+  padding-top: 20px;
+  width: 100%;
+  overflow: hidden;
+}
+#timeline ul {
+  padding-left: 0;
+}
+.timeline-item {
+  height: 100px;
+  width: 75px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  float: left;
+  margin-left: 5px;
+  border: 1px solid #eebb22;
 }

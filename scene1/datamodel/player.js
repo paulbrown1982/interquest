@@ -9,7 +9,7 @@ function Player() {
 
 Player.prototype.jumpToFirstScene = function() {
   this.scene = 0;
-  this.moveToNextScene();
+  //this.moveToNextScene();
 }
 
 Player.prototype.hasPlayedBefore = function() {
@@ -89,11 +89,23 @@ Player.prototype.moveToNextScene = function() {
 };
 
 Player.prototype.moveToPreviousScene = function() {
-	if (this.scene > 1) {
+	if (this.scene > 0) {
 		this.scene -= 1;
 	}
 	setScene(this.scene);
 };
+
+Player.prototype.moveToScene = function(sceneId) {
+	// Sanitize scene variable
+	var sceneCount = this.getNumberOfScenes();
+	if (sceneId <= 0 || sceneId > sceneCount) {
+		this.jumpToFirstScene();
+	} else {
+  	this.scene = sceneId;
+	}
+	setScene(this.scene);
+};
+
 
 Player.prototype.getPlayersCurrentScene = function() {
 	return Scenes[this.scene+""];	

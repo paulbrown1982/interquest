@@ -14,7 +14,7 @@ Scene.prototype.addArtefact = function(artefact, positionX, positionY) {
 };
 Scene.prototype.setCharacter = function(character) {
 	this.character = character;
+	character.setSceneWhichImIn(this);
 }
-
 
 var Scenes = {};

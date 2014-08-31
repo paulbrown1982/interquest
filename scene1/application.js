@@ -192,7 +192,37 @@
       render: function() {
         return React.DOM.p(null, Characters[this.props].bio);
       }
-    }) 
+    }),
+    
+    timelineItem: React.createClass({
+      onClick: function () {
+        CurrentPlayer.moveToScene(this.props.scene.id);
+        dispatcher.dispatch('scene:change', this.props.description);
+      },
+
+      render: function () {
+        var props = this.props;
+        var attrs = {
+          className: 'timeline-item',
+          
+          style: {
+            backgroundImage: 'url(' + props.avatarURL + ')'
+          }
+        };
+        if (props.scene) {
+          attrs.style.cursor = "pointer";
+          attrs.onClick = this.onClick;
+        }
+        return React.DOM.li(attrs);
+      }
+    }),
+    
+    renderTimeline: React.createClass({
+      render: function() {
+        var attrs = {};
+        return React.DOM.ul(attrs, getCharactersForTimeline().map(components.timelineItem));
+      }
+    })
   };
 
   var sceneElement;
@@ -321,6 +351,9 @@
 
     var clearInventoryElement = document.getElementById('clear-inventory');
     React.renderComponent(components.clearInventory(), clearInventoryElement);
+
+    var timelineElement = document.getElementById('timeline');
+    React.renderComponent(components.renderTimeline(), timelineElement);
 
     var scene = CurrentPlayer.getPlayersCurrentScene();
     if (renderScene(scene)) {
