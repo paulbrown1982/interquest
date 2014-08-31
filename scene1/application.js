@@ -155,7 +155,25 @@
     return true;
   };
 
-  window.onload = function () {
+  function showGameContainer() {
+  	var gameContainerElement = document.getElementById('game-container');
+  	gameContainerElement.style.display = "block";
+  }
+
+  function hideHomepage() {
+	var homepageElement = document.getElementById('homepage');
+  	homepageElement.style.display = "none";
+  }
+  
+  function showHomepage() {
+	var homepageElement = document.getElementById('homepage');
+  	homepageElement.style.display = "block";
+  }
+
+  window.startGame = function () {
+  	hideHomepage();
+  	showGameContainer();
+  	CurrentPlayer.setPlayedBefore();
     CurrentPlayer.clearPlayersInventory();
     sceneElement = document.getElementById('game-bg-layer');
     var scene = CurrentPlayer.getPlayersCurrentScene();
@@ -170,4 +188,14 @@
       dispatcher.dispatch('inventory:change');
     }
   };
+
+  window.onload = function() {
+	  if (CurrentPlayer.hasPlayedBefore()) {
+		  window.startGame()
+	  } else {
+		  showHomepage();
+	  }
+  }
+
+  
 }).call(this, React, document, window);

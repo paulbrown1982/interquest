@@ -8,6 +8,14 @@ function Player() {
 	}
 };
 
+Player.prototype.hasPlayedBefore = function() {
+	return isBoolSet("playedBefore");
+};
+
+Player.prototype.setPlayedBefore = function() {
+	setBool("playedBefore", true);
+};
+
 Player.prototype.addArtefactToInventory = function(artefactToAdd) {
 	var artefacts = getArtifacts() || [];
 	var alreadyThere = false;
