@@ -220,6 +220,8 @@
           if (props.scene) {
             attrs.style.cursor = "pointer";
             attrs.onClick = this.onClick;
+          } else {
+            attrs.style.opacity=0.2;
           }
         } else {
           attrs.style.backgroundImage = 'url(' + ')';

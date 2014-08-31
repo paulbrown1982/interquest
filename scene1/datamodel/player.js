@@ -8,8 +8,8 @@ function Player() {
 };
 
 Player.prototype.jumpToFirstScene = function() {
-  this.scene = 0;
-  this.moveToNextScene();
+  this.scene = 4;
+  setScene(this.scene);
 }
 
 Player.prototype.hasPlayedBefore = function() {
