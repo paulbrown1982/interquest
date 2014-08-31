@@ -29,7 +29,7 @@ function getCharactersForTimeline() {
     }
   }
   list = list.sort(function(a, b) {
-    return (a.date - b.date);
+    return (a.yearofbirth - b.yearofbirth);
   });
   return list;
 }
