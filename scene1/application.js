@@ -229,6 +229,7 @@
         CurrentPlayer.reset();
         dispatcher.dispatch('scene:change');
         dispatcher.dispatch('inventory:change');
+        window.showBioFor(null);
         hideGameContainer();
         showHomepage();
       }
@@ -281,16 +282,23 @@
     
     if (name == "ada") {
       currentBioElement = self.adasBioElement;
+      currentBioElement.style.display = "block";
       self.alansBioElement.style.display = "none";
       self.adasImageElement.style.display = "block";
       self.alansImageElement.style.display = "none";
-    } else {
+    } else if (name == "alan") {
       currentBioElement = self.alansBioElement;
+      currentBioElement.style.display = "block";
       self.adasBioElement.style.display = "none";
       self.adasImageElement.style.display = "none";
       self.alansImageElement.style.display = "block";
+    } else {
+      self.adasBioElement.style.display = "none";
+      self.alansBioElement.style.display = "none";
+      self.adasImageElement.style.display = "block";
+      self.alansImageElement.style.display = "block";
+      return;
     }
-    currentBioElement.style.display = "block";
     
     var characterId = currentBioElement.getAttribute("data-character-id");
     React.renderComponent(components.renderHomepageBios(characterId), currentBioElement);
