@@ -34,7 +34,12 @@ Player.prototype.removeArtefactFromInventory = function(artefactIdToRemove) {
 };
 
 Player.prototype.listPlayersInventory = function() {
-	return getArtifacts();
+	var artefactIds = getArtifacts();
+	var artefacts = [];
+	artefactIds.forEach(function(artefactId) {
+		artefacts.push(Artefacts[artefactId]);
+	});
+	return artefacts;
 };
 
 Player.prototype.getNumberOfScenes = function() {
