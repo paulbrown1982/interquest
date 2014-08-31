@@ -9,7 +9,7 @@ function Player() {
 
 Player.prototype.jumpToFirstScene = function() {
   this.scene = 0;
-  //this.moveToNextScene();
+  this.moveToNextScene();
 }
 
 Player.prototype.hasPlayedBefore = function() {
@@ -89,7 +89,7 @@ Player.prototype.moveToNextScene = function() {
 };
 
 Player.prototype.moveToPreviousScene = function() {
-	if (this.scene > 0) {
+	if (this.scene > 1) {
 		this.scene -= 1;
 	}
 	setScene(this.scene);

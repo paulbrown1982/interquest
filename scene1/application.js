@@ -204,22 +204,36 @@
         var props = this.props;
         var attrs = {
           className: 'timeline-item',
-          
           style: {
-            backgroundImage: 'url(' + props.avatarURL + ')'
           }
         };
+        var enabled = true;
         if (props.scene) {
-          attrs.style.cursor = "pointer";
-          attrs.onClick = this.onClick;
+          var requiredId = props.scene.unlockedByArtefactWithId;
+          if (requiredId) {
+            enabled = CurrentPlayer.containsArtefactWithId(parseInt(requiredId, 10));
+          }
+        }
+        if (enabled) {
+          attrs.style.backgroundImage = 'url(' + props.avatarURL + ')';
+          if (props.scene) {
+            attrs.style.cursor = "pointer";
+            attrs.onClick = this.onClick;
+          }
+        } else {
+          attrs.style.backgroundImage = 'url(' + ')';
         }
         return React.DOM.li(attrs);
       }
     }),
     
     renderTimeline: React.createClass({
+      onInventoryChange: function () {
+        this.setState({});
+      },
       render: function() {
         var attrs = {};
+        dispatcher.register('inventory:change', this.onInventoryChange);
         return React.DOM.ul(attrs, getCharactersForTimeline().map(components.timelineItem));
       }
     })
