@@ -1,9 +1,10 @@
-function Character(id, name, date, url, bio, sizex, sizey) {
+function Character(id, name, yearofbirth, yearofdeath, url, bio, sizex, sizey) {
 	this.id = id;
 	this.name = name;
-	this.date = parseInt(date, 10);
-	if (isNaN(this.date)) {
-  	this.date = parseInt(99 + id, 10);
+	this.yearofbirth = parseInt(yearofbirth, 10);
+	this.yearofdeath = parseInt(yearofdeath, 10);
+	if (isNaN(this.yearofdeath)) {
+  	this.yearofdeath = 0;
 	}
 	this.avatarURL = url;
 	this.bio = bio,
