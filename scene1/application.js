@@ -182,14 +182,17 @@
 
   var actions = [
     {
-      text: 'Previous',
+      text: '< Previous',
       action: function () {
         CurrentPlayer.moveToPreviousScene();
         dispatcher.dispatch('scene:change');
       }
     },
     {
-      text: 'Next',
+      text: '|'
+    },
+    {
+      text: 'Next >',
       action: function () {
         CurrentPlayer.moveToNextScene();
         dispatcher.dispatch('scene:change');
