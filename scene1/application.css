@@ -29,3 +29,20 @@ body {
   left: 0;
   cursor: pointer;
 }
+
+.inventory {
+  padding: 29px 5px;
+  display: inline-block;
+}
+
+.inventory-item {
+  width: 51px;
+  height: 51px;
+  padding: 0;
+  margin: 6px 7px;
+  display: inline-block;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+}
