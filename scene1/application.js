@@ -24,7 +24,11 @@
 
   var components = {
     root: React.createClass({
-      render: function() {
+      onInventoryChange: function () {
+        this.setState({});
+      },
+
+      render: function () {
         var props = this.props,
             background_image = props.backgroundURL,
             artefacts = props.artefactsInPosition,
@@ -36,18 +40,52 @@
               },
             };
 
-        return React.DOM.div(attrs, artefacts.map(components.overlay));
+        var remaining = [],
+            inventory = CurrentPlayer.listPlayersInventory();
+        for (var i = 0; i < artefacts.length; i++) {
+          var entity = artefacts[i];
+          if (inventory.indexOf(entity.artefact) === -1) {
+            entity.key = entity.artefact.id;
+            remaining.push(entity);
+          }
+        }
+
+        dispatcher.register('inventory:change', this.onInventoryChange);
+        return React.DOM.div(attrs, remaining.map(components.overlay));
+      }
+    }),
+
+    inventory: React.createClass({
+      onInventoryChange: function () {
+        this.setState({ items: CurrentPlayer.listPlayersInventory() });
+      },
+
+      render: function () {
+        var items = [],
+            state = this.state,
+            attrs = {
+              className: 'inventory'
+            };
+        if (state) {
+          items = state.items.map(function (item) {
+            item.key = item.id;
+            return item;
+          });
+        }
+        dispatcher.register('inventory:change', this.onInventoryChange);
+
+        return React.DOM.ul(attrs, items.map(components.inventoryItem));
       }
     }),
 
     overlay: React.createClass({
-      addToInventory: function () {},
-
       onClick: function () {
-        var props = this.props;
-        var artefact = props.artefact;
-        var description = artefact.description;
+        var props = this.props,
+            artefact = props.artefact,
+            description = artefact.description;
+        CurrentPlayer.addArtefactToInventory(artefact);
         dispatcher.dispatch('text:change', artefact.description);
+        dispatcher.dispatch('inventory:change');
       },
 
       render: function () {
@@ -55,18 +93,19 @@
         var artefact = props.artefact;
         var imageUrl = artefact.imageURL;
         var transform = "translate(" + props.positionX + "px, " + props.positionY + "px)";
-        var divStyle = {
+        var attrs = {
           src:imageUrl,
           onClick: this.onClick,
           className: 'overlay-object',
           style: {
+            WebkitTransform: transform,
             transform: transform,
             width: artefact.dimX,
             height: artefact.dimY
           }
         };
 
-        return React.DOM.img(divStyle, null);
+        return React.DOM.img(attrs, null);
       }
     }),
 
@@ -84,23 +123,51 @@
         dispatcher.register('text:change', this.onTextChange);
         return React.DOM.p(null, text);
       }
+    }),
+
+    inventoryItem: React.createClass({
+      onClick: function () {
+        dispatcher.dispatch('text:change', this.props.description);
+      },
+
+      render: function () {
+        var props = this.props,
+            attrs = {
+              className: 'inventory-item',
+              onClick: this.onClick,
+              style: {
+                backgroundImage: 'url(' + props.imageURL + ')'
+              }
+            };
+        return React.DOM.li(attrs);
+      }
     })
   };
 
   var sceneElement;
   function renderScene(scene) {
     if (!scene) {
-      alert('something broke');
+      alert('Oh no, something broke');
+      return false;
     }
+
     React.renderComponent(components.root(scene), sceneElement);
+    return true;
   };
 
   window.onload = function () {
+    CurrentPlayer.clearPlayersInventory();
     sceneElement = document.getElementById('game-bg-layer');
     var scene = CurrentPlayer.getPlayersCurrentScene();
-    renderScene(scene);
 
-    var textElement = document.getElementById('text-bg-layer');
-    React.renderComponent(components.text(), textElement);
+    if (renderScene(scene)) {
+      var textElement = document.getElementById('text-bg-layer');
+      React.renderComponent(components.text(), textElement);
+
+      var inventoryElement = document.getElementById('inv-bg-layer');
+      React.renderComponent(components.inventory(), inventoryElement);
+
+      dispatcher.dispatch('inventory:change');
+    }
   };
 }).call(this, React, document, window);
