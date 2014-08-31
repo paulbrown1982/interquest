@@ -125,10 +125,15 @@
     }),
 
     inventoryItem: React.createClass({
+      onClick: function () {
+        dispatcher.dispatch('text:change', this.props.description);
+      },
+
       render: function () {
         var props = this.props,
             attrs = {
               className: 'inventory-item',
+              onClick: this.onClick,
               style: {
                 backgroundImage: 'url(' + props.imageURL + ')'
               }
