@@ -218,7 +218,9 @@
     {
       text: 'reset',
       action: function () {
+        CurrentPlayer.reset();
         dispatcher.dispatch('scene:change');
+        dispatcher.dispatch('inventory:change');
       }
     },
     {
