@@ -8,17 +8,19 @@ function Player() {
 	}
 };
 
-Player.prototype.addArtefactToInventory = function(artefactIdToAdd) {
+Player.prototype.addArtefactToInventory = function(artefactToAdd) {
 	var artefacts = getArtifacts() || [];
 	var alreadyThere = false;
 	artefacts.forEach(function(artefactId) {
-		if (artefactId == artefactIdToAdd) {
+		if (artefactId == artefactToAdd.id) {
 			alreadyThere = true;
 		}
 	});
 	if (!alreadyThere) {
-		artefacts.push(parseInt(artefactIdToAdd, 10));
+		artefacts.push(parseInt(artefactToAdd.id, 10));
 	}
+	
+	console.log(artefacts);
 	setArtifacts(artefacts);
 };
 
