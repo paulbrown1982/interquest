@@ -41,7 +41,7 @@ Player.prototype.moveToNextScene = function() {
 			sceneCount++;
 		}
 	}
-	if (this.scene < (sceneCount - 1)) {
+	if (this.scene <= sceneCount) {
 		this.scene += 1;
 	}
 	setScene(this.scene);
