@@ -101,6 +101,12 @@ body {
 }
 
 #navigation li a {
-	display: block;
-	color: #dfa920;
+  display: block;
+  color: #dfa920;
+}
+
+#clear-inventory a {
+  float: right;
+  font-family: 'Cinzel', serif;
+  color: #dfa920;
 }

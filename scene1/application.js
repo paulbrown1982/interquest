@@ -66,7 +66,7 @@
       render: function () {
         var props = this.props;
         var attrs = {
-          href: 'javascript:void(0)',
+          href: '#',
           onClick: props.action
         };
         return React.DOM.li(null, React.DOM.a(attrs, props.text));
@@ -159,7 +159,22 @@
             };
         return React.DOM.li(attrs);
       }
-    })
+    }),
+    
+    clearInventory: React.createClass({
+      onClick: function () {
+        CurrentPlayer.clearPlayersInventory();
+        dispatcher.dispatch('scene:change');
+        dispatcher.dispatch('inventory:change');
+      },
+      render: function() {
+        var attrs = {
+          href: "#",
+          onClick: this.onClick
+        };
+        return React.DOM.a(attrs, "Clear Inventory");
+      }
+    }) 
   };
 
   var sceneElement;
@@ -211,15 +226,19 @@
   }
   
   function showHomepage() {
-	var homepageElement = document.getElementById('homepage');
+	  var homepageElement = document.getElementById('homepage');
   	homepageElement.style.display = "block";
+  }
+  
+  window.clearInventory = function() {
+    
   }
 
   window.startGame = function () {
   	hideHomepage();
   	showGameContainer();
-  	CurrentPlayer.setPlayedBefore();
-    CurrentPlayer.clearPlayersInventory();
+  	CurrentPlayer.setPlayedBefore(false);
+  	
     sceneElement = document.getElementById('game-bg-layer');
     var scene = CurrentPlayer.getPlayersCurrentScene();
 
@@ -232,6 +251,9 @@
 
       var navigationElement = document.getElementById('navigation');
       React.renderComponent(components.navigation(), navigationElement);
+
+      var clearInventoryElement = document.getElementById('clear-inventory');
+      React.renderComponent(components.clearInventory(), clearInventoryElement);
 
       dispatcher.dispatch('inventory:change');
     }

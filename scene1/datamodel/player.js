@@ -3,10 +3,14 @@ function Player() {
 	var sceneCount = this.getNumberOfScenes();
 	// Sanitize scene variable
 	if (this.scene <= 0 || this.scene > sceneCount) {
-		this.scene = 0;
-		this.moveToNextScene();
+		this.jumpToFirstScene();
 	}
 };
+
+Player.prototype.jumpToFirstScene = function() {
+  this.scene = 0;
+  this.moveToNextScene();
+}
 
 Player.prototype.hasPlayedBefore = function() {
 	return isBoolSet("playedBefore");
@@ -14,6 +18,12 @@ Player.prototype.hasPlayedBefore = function() {
 
 Player.prototype.setPlayedBefore = function() {
 	setBool("playedBefore", true);
+};
+
+Player.prototype.reset = function() {
+	setBool("playedBefore", false);
+	this.clearPlayersInventory();
+	this.jumpToFirstScene();
 };
 
 Player.prototype.containsArtefactWithId = function(artefactId) {
