@@ -11,7 +11,7 @@
   "license": "Apache 2",
   "dependencies": {
     "envify": "^1.2.1",
-    "react": "^0.10.0",
+    "react": "^16.13.1",
     "browserify": "^3.38.0",
     "reactify": "^0.10.0"
   }
